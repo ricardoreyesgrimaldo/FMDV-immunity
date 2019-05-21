@@ -196,7 +196,7 @@ end
 loglrt=maxlikelihoodmodel1-maxlikelihoodmodel2;
 loglikelihoodtest=chi2cdf(2*loglrt,1);%<-LRT
 simdistribution(optimodel1,optimodel2,highmodel1,countmodel1,lowmodel1,count_lowmodel1,highmodel2,countmodel2,lowmodel2,count_lowmodel2,high1,count1,low1,count_low1)
-save('run6.mat')
-Likelihoodtest
+save('run7.mat')
+%Likelihoodtest
 toc
 sprintf('workflow done')
