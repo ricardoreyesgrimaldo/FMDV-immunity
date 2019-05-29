@@ -1,4 +1,4 @@
-function [opti]=mleestimator(initialcondition)
+function [opti,maxlikelihood]=mleestimator(initialcondition)
 tic
 % initialcondition is a 3-dimensional vector that provides 
 datafilename='SAT.csv'; %Provide the name of data file
@@ -20,8 +20,9 @@ parfor sat=1:3
     lb=[0,0,0];
     ub=[Inf,Inf,Inf];
     %options=optimoptions(@fmincon,'Display','off');
-    [opt]=fmincon(f,initialcondition(sat,:),A,b1,Aeq,beq,lb,ub);
+    [opt,fval]=fmincon(f,initialcondition(sat,:),A,b1,Aeq,beq,lb,ub);
     opti(sat,:)=opt;
+    maxlikelihood(sat,:)=fval;
 %     sigma=inv(H)*(1/2);
 %     z=norminv(0.975);
 %     ci1(sat,:)=[opt(1)-z*sigma(1,1),opt(1)+z*sigma(1,1)];
@@ -29,4 +30,5 @@ parfor sat=1:3
 %     ci3(sat,:)=[opt(3)-z*sigma(3,3),opt(3)+z*sigma(3,3)];
 end
 toc
+sprintf('mle estimator model 2 done')
 end

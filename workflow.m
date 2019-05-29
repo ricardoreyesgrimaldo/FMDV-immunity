@@ -1,10 +1,10 @@
 %Likelihood 1 uses parameters (a,b)
 %Likelihood 2 uses parameters (alpha,beta,c)
-close all
-clear all
-format long
+% close all
+% clear all
+% format long
 tic
-runsize=10;
+runsize=10000;
 na=50;
 threshold=1.7;
 SATSmodel1=zeros(na*18,3*runsize+2); %Data for Likelihood 1
@@ -16,6 +16,7 @@ initialcondition=[0.669900408805846,0.146555999855608,0.089120104390880;
 %initialcondition=[0.669900210684230,0.146556914599346,0.089120152600158;0.273348579589497,0.383014244202118,0.206566543917455;0.381970585316840,0.178230490886034,0.362475611573978];
 %initialcondition=[0.669900429045425,0.146556249607274,0.089120132317655;0.273349126394630,0.383014310604545,0.206566501840294;0.381970241054393,0.178230681553107,0.362475586639337];
 [optimodel2,maxlikelihoodmodel2]=mleestimator(initialcondition);
+%load('run7.mat')
 a=(optimodel1(:,1))';
 b=(optimodel1(:,2))';
 for run=1:runsize
@@ -196,7 +197,7 @@ end
 loglrt=maxlikelihoodmodel1-maxlikelihoodmodel2;
 loglikelihoodtest=chi2cdf(2*loglrt,1);%<-LRT
 simdistribution(optimodel1,optimodel2,highmodel1,countmodel1,lowmodel1,count_lowmodel1,highmodel2,countmodel2,lowmodel2,count_lowmodel2,high1,count1,low1,count_low1)
-save('run7.mat')
+%save('run7.mat')
 %Likelihoodtest
 toc
 sprintf('workflow done')
