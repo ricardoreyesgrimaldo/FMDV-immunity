@@ -1,6 +1,6 @@
 function [high,count,low,count_low]=distributionsat4(co)
 %data = xlsread('data-jan.csv');
-data = xlsread('SAT.csv');
+data = xlsread('Data\SAT.csv');
 a=unique(data(:,1));%Number of animals
 b=unique(data(:,2));%Capture Time
 n=length(unique(data(:,2)));
