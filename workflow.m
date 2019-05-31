@@ -4,7 +4,7 @@ close all
 clear all
 format long
 tic
-runsize=10000;
+runsize=1000;
 na=50;
 threshold=1.7;
 SATSmodel1=zeros(na*18,3*runsize+2); %Data for Likelihood 1
@@ -197,7 +197,10 @@ end
 loglrt=maxlikelihoodmodel1-maxlikelihoodmodel2;
 loglikelihoodtest=chi2cdf(2*loglrt,1);%<-LRT
 simdistribution(optimodel1,optimodel2,highmodel1,countmodel1,lowmodel1,count_lowmodel1,highmodel2,countmodel2,lowmodel2,count_lowmodel2,high1,count1,low1,count_low1)
-save('Output\run8.mat')
+AIC1=4+2*maxlikelihoodmodel1;
+AIC2=6+2*maxlikelihoodmodel2;
+AIC=[AIC1,AIC2]; 
+save('run8.mat')
 %Likelihoodtest
 toc
 sprintf('workflow done')
