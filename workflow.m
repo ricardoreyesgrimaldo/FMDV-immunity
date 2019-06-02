@@ -200,6 +200,7 @@ simdistribution(optimodel1,optimodel2,highmodel1,countmodel1,lowmodel1,count_low
 AIC1=4+2*maxlikelihoodmodel1;
 AIC2=6+2*maxlikelihoodmodel2;
 AIC=[AIC1,AIC2]; 
+comparison=[1-exp(-abs(AIC1-AIC2)/2),loglikelihoodtest];
 save('run8.mat')
 %Likelihoodtest
 toc
