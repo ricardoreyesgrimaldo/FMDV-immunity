@@ -9,13 +9,12 @@ na=50;
 threshold=1.7;
 SATSmodel1=zeros(na*18,3*runsize+2); %Data for Likelihood 1
 SATSmodel2=zeros(na*18,3*runsize+2); %Data for Likelihood 2
-[optimodel1,maxlikelihoodmodel1]=mleestimatormodel1(threshold);
-initialcondition=[0.669900408805846,0.146555999855608,0.089120104390880;
-    0.273350391523738,0.383014580896015,0.206566766121656;
-    0.381970288754607,0.178230376898277,0.362475461538944];
+[optimodel1,maxlikelihoodmodel1,gradientmodel1,Hmodel1,ci1model1,ci2model1,sigmamodel1]=mleestimatormodel1(threshold);
+initialcondition=[0.669900541887672,0.146555991721188,0.089120096812173;0.273348379072234,0.383014679455082,0.206566595621934;0.381970336932574,0.178230483666068,0.362475534125670];
+%initialcondition=[0.669900408805846,0.146555999855608,0.089120104390880;0.273350391523738,0.383014580896015,0.206566766121656;0.381970288754607,0.178230376898277,0.362475461538944];
 %initialcondition=[0.669900210684230,0.146556914599346,0.089120152600158;0.273348579589497,0.383014244202118,0.206566543917455;0.381970585316840,0.178230490886034,0.362475611573978];
 %initialcondition=[0.669900429045425,0.146556249607274,0.089120132317655;0.273349126394630,0.383014310604545,0.206566501840294;0.381970241054393,0.178230681553107,0.362475586639337];
-[optimodel2,maxlikelihoodmodel2]=mleestimator(initialcondition);
+[optimodel2,maxlikelihoodmodel2,gradientmodel2,Hmodel2,ci1model2,ci2model2,ci3model2,sigmamodel2]=mleestimator(initialcondition);
 %load('run7.mat')
 a=(optimodel1(:,1))';
 b=(optimodel1(:,2))';
@@ -201,7 +200,7 @@ AIC1=4+2*maxlikelihoodmodel1;
 AIC2=6+2*maxlikelihoodmodel2;
 AIC=[AIC1,AIC2]; 
 comparison=[1-exp(-abs(AIC1-AIC2)/2),loglikelihoodtest];
-save('run8.mat')
+save('run9.mat')
 %Likelihoodtest
 toc
 sprintf('workflow done')
