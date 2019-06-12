@@ -1,15 +1,5 @@
 clear; close all; home; format long g;
 tic
-%% Initial data
-% Parameters
-nn      = 100;       % Number of samples for examine the AC
-N       = 30000;     % Number of samples (iterations)
-burnin  = 3000;      % Number of runs until the chain approaches stationarity
-lag     = 10;        % Thinning or lag period: storing only every lag-th point
-% Storage
-theta   = zeros(2,N);      % Samples drawn from the Markov chain (States)
-acc     = 0;               % Accepted samples
-
 load('mlemodel1.mat')
 threshold=1.7;
 % initialcondition is a 3-dimensional vector that provides 
@@ -21,10 +11,21 @@ b=find(~any(isnan(data(:,3)),2)); %Detect where there is missing data
 data1=data(b,:); %Ignores where there is data missing
 data1(:,3:5)=(data1(:,3:5)>=threshold)+1; %Verify data that is under 
                                           %threshold value
-sat=1;
-a1=opti(1,1);
+%sat=1;
+for sat=1:3
+%% Initial data
+% Parameters
+nn      = 100;       % Number of samples for examine the AC
+N       = 30000;     % Number of samples (iterations)
+burnin  = 3000;      % Number of runs until the chain approaches stationarity
+lag     = 10;        % Thinning or lag period: storing only every lag-th point
+% Storage
+theta   = zeros(2,N);      % Samples drawn from the Markov chain (States)
+acc     = 0;               % Accepted samples
+
+a1=opti(sat,1);
 cia=ci1(sat,:);
-b1=opti(1,2);
+b1=opti(sat,2);
 cib=ci2(sat,:);
 
 %%Distribution
@@ -32,7 +33,7 @@ Sigma=[.5;.05];
 proposal_PDF = @(v,ci) prod(unifpdf(v,ci-0.5*Sigma,ci+0.5*Sigma));
 sample_from_proposal_PDF = @(ci) unifrnd(ci-0.5*Sigma,ci+0.5*Sigma);
 %p=@(v) -minusloglikelihood(v(1),v(2),data1,sat);
-p=@(v) p(v,data1,sat);
+p=@(v) pr(v,data1,sat);
 aa=eps;  bb=1;
 tt=[a1;b1];
 %% Marginals
@@ -61,7 +62,7 @@ for i = 1:N   % Cycle to the number of samples
 end
 accrate = acc/N;           % Acceptance rate
 %% Autocorrelation
-nn = 100;          % Number of samples for examine the AC
+%nn = 100;          % Number of samples for examine the AC
 pp = theta(1,1:nn);   pp2 = theta(1,end-nn:end);   % First ans Last nn samples in X
 qq = theta(2,1:nn);   qq2 = theta(2,end-nn:end);   % First and Last nn samples in Y
 % AC in X
@@ -127,7 +128,10 @@ xlabel('X', 'FontSize', 15);   ylabel('Y', 'FontSize', 15);
 figure;
 scatterhist(theta(1,:),theta(2,:),[ceil(sqrt(N)) ceil(sqrt(N))]); hold on; 
 contour(X,Y,Z,22,'--','LineWidth',2); colormap summer;
-save('bayesianrun3.mat')
+
+save(['bayesianrun4_' num2str(sat) '.mat'])
+end
+%save('bayesianrun3.mat')
 %%End
 toc
 %Use percentiles and median to obtain credible interval and MLE from
