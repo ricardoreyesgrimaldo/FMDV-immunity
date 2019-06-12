@@ -200,7 +200,7 @@ AIC1=4+2*maxlikelihoodmodel1;
 AIC2=6+2*maxlikelihoodmodel2;
 AIC=[AIC1,AIC2]; 
 comparison=[1-exp(-abs(AIC1-AIC2)/2),loglikelihoodtest];
-save('run9.mat')
+save('Output\run9.mat')
 %Likelihoodtest
 toc
 sprintf('workflow done')

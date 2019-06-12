@@ -1,7 +1,7 @@
 function [opti,maxlikelihood,gradint,H,ci1,ci2,ci3,sigma]=mleestimator(initialcondition)
 tic
 % initialcondition is a 3-dimensional vector that provides 
-datafilename='SAT.csv'; %Provide the name of data file
+datafilename='Data\SAT.csv'; %Provide the name of data file
 threshold=1.7;
 
 data = xlsread(datafilename); %Obtain the data from the csv file.
