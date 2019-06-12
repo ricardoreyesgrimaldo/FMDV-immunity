@@ -28,16 +28,18 @@ b1=opti(1,2);
 cib=ci2(sat,:);
 
 %%Distribution
-proposal_PDF = @(v,ci) unifpdf([v(1);v(2)],[0;0],[1;1]);
-sample_from_proposal_PDF = @(ci) unifrnd([0;0],[1;1]);
-p=@(v) -minusloglikelihood(v(1),v(2),data1,sat);
+Sigma=[.5;.05];
+proposal_PDF = @(v,ci) prod(unifpdf(v,ci-0.5*Sigma,ci+0.5*Sigma));
+sample_from_proposal_PDF = @(ci) unifrnd(ci-0.5*Sigma,ci+0.5*Sigma);
+%p=@(v) -minusloglikelihood(v(1),v(2),data1,sat);
+p=@(v) p(v,data1,sat);
 aa=eps;  bb=1;
 tt=[a1;b1];
 %% Marginals
 X = (cia(1):(cia(2)-cia(1))/241:cia(2))';   nx = length(X);
 Y = (cib(1):(cib(2)-cib(1))/241:cib(2))';   ny = length(Y);
 [XX,YY] = meshgrid(X,Y);
-pXY = @(x,y) -minusloglikelihood(x',y',data1,sat);
+pXY = @(x,y) exp(-minusloglikelihood(x',y',data1,sat));
 pX = zeros(nx,1);
 for i = 1:nx
    pX(i) = integral(@(y) pXY(repmat(X(i),1,length(y)),y), 0, 1,'ArrayValued',true);  % Marginal X
@@ -125,6 +127,8 @@ xlabel('X', 'FontSize', 15);   ylabel('Y', 'FontSize', 15);
 figure;
 scatterhist(theta(1,:),theta(2,:),[ceil(sqrt(N)) ceil(sqrt(N))]); hold on; 
 contour(X,Y,Z,22,'--','LineWidth',2); colormap summer;
-save('bayesianrun2.mat')
+save('bayesianrun3.mat')
 %%End
 toc
+%Use percentiles and median to obtain credible interval and MLE from
+%Bayesian approach
